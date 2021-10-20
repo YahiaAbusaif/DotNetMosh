@@ -1,0 +1,17 @@
+﻿@model Hello1.Models.Customer
+
+@{
+    ViewBag.Title = Model.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customer Name is @Model.Name</h2>
+<h2>Customer ID is @Model.ID</h2>
+<h2>Customer Subscribed is @Model.IsSubscribedToNewsletter</h2>
+<h2>Customer MembershipTypeID is @Model.MembershipTypeID</h2>
+<h2>Customer Membership Type is @Model.MembershipType.Name</h2>
+
+@if (@Model.BirthDate != null)
+{ 
+    <h2>Customer BirthDate is @Model.BirthDate.Value.ToString("dd-MM-yyyy")</h2>
+}

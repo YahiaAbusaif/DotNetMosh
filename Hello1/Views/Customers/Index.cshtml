@@ -1,0 +1,33 @@
+﻿@model Hello1.Models.Customers
+
+@{
+    ViewBag.Title = "Customers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List of Customers</h2>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Customer's Name</th>
+            <th>Membership Type</th>
+            <th>Edit option</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var customer in Model.CustomersList)
+        {
+            <tr>
+                <th>@Html.ActionLink(@customer.Name, "Details/" + @customer.ID, "Customers") </th>
+                <th>@customer.MembershipType.Name </th>
+                <th>@Html.ActionLink("Edit", "Edit/" + @customer.ID, "Customers")</th>
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+
+@Html.ActionLink("Add New User", "New/", "Customers")

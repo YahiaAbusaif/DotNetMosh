@@ -1,0 +1,12 @@
+﻿@model Hello1.Models.Movie
+
+@{
+    ViewBag.Title = "Movie Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Movie Name is @Model.Name</h2>
+<h4>ID = @Model.ID</h4>
+<h4>Dirctor is @Model.Dirctor</h4>
+<h4>Release Date is @Model.Release.ToString("dd-MM-yyyy")</h4>
+

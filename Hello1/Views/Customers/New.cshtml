@@ -1,0 +1,45 @@
+﻿@model Hello1.Models.ViewModel.NewCustomer
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customer info</h2>
+
+@using (Html.BeginForm("Save", "Customers"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.customer.Name)
+        @Html.TextBoxFor(m => m.customer.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.customer.Name)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.customer.BirthDate)
+        @*
+            <label for="BirthDate" Date >Date of Birth</label>
+        *@
+        @Html.TextBoxFor(m => m.customer.BirthDate, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.customer.BirthDate)
+    </div>
+
+
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.customer.MembershipTypeID)
+        @Html.DropDownListFor(m => m.customer.MembershipTypeID, new SelectList(Model.MembershipTypes, "ID", "Name"), "Select Membership type", new { @class = "form-control" })
+    </div>
+
+
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(m => m.customer.IsSubscribedToNewsletter) Subscribe the newsletter ?
+        </label>
+    </div>
+
+    @Html.HiddenFor(m => m.customer.ID)
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+}
+

@@ -1,0 +1,38 @@
+﻿@model Hello1.Models.Movie
+
+
+@{
+    ViewBag.Title = "Save";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Movie info</h2>
+
+@using (Html.BeginForm("Save", "Movies"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Release)
+        @Html.TextBoxFor(m => m.Release, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Release)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Dirctor)
+        @Html.TextBoxFor(m =>  m.Dirctor, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m =>  m.Dirctor)
+    </div>
+
+    @Html.HiddenFor(m => m.ID)
+    @Html.AntiForgeryToken()
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+}
+
