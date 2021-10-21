@@ -18,6 +18,17 @@ namespace Hello1.Models
         public string Dirctor { get; set; }
         public DateTime? Release { get; set; }
 
+        [Range(0,10)]
+        [Display(Name ="Average Review out of ten")]
+        public double? AverageReviewOutOfTen { get; set; }
+
+        [Display(Name ="Number of Movie in stock")]
+        public int? NumberInStock { get; set; }
+
+        [Range(0,1000)]
+        public Double? Price { get; set; }
+
+        //public virtual ICollection<Genre> Genres { get; set; }
 
 
     }

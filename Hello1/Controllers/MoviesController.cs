@@ -31,8 +31,26 @@ namespace Hello1.Controllers
             if (string.IsNullOrWhiteSpace(sortBy))
                 sortBy = "name";
 
-            Movies movies = new Movies();
-            movies.MoviesList = _context.MoviesList.ToList();
+            var movies = new Movies() { MoviesList = new List<ViewMovie>() };
+
+            var MoviesList = _context.MoviesList.ToList();
+            foreach (var Movie in MoviesList)
+            {
+
+                var GenersIDs = _context.MovieGenre
+                         .Where(Gm => Gm.MovieID == Movie.ID)
+                         .Select(G => G.GenreID).ToList();
+                var GenresList = _context.GenresList.Where(G => GenersIDs.Contains(G.ID));
+
+                movies.MoviesList.Add(
+                    new ViewMovie
+                    {
+                        Movie = Movie,
+                        Genres = GenresList
+                    }
+                    );
+
+            }
 
 
             return View(movies);
@@ -43,16 +61,26 @@ namespace Hello1.Controllers
         {
             if (!Id.HasValue)
                 return Content("Invalid ID please try again with valid ID");
-            var Target = _context.MoviesList.SingleOrDefault(c => c.ID == Id);
-            if(Target != null)
-                return View(Target);
+            var viewMovie = new ViewMovie();
+            viewMovie.Movie = _context.MoviesList.SingleOrDefault(m => m.ID == Id);
 
+            if (viewMovie.Movie == null)
+                return Content("Can't Find Movie with that ID");
 
-            return Content("Can't Find Movie with that ID");
+            
+            var GenersIDs = _context.MovieGenre
+                            .Where(Gm => Gm.MovieID == Id)
+                            .Select(G => G.GenreID).ToList();
+            viewMovie.Genres = _context.GenresList.Where(G => GenersIDs.Contains(G.ID));
+
+            
+
+            return View(viewMovie);
+
         }
 
         [Route("Movies/Released/{year:regex(\\d{4}):range(1990,2050)}/{month:range(1,12)}")]
-        public ActionResult ByReleasedDate(int? year,int? month)
+        public ActionResult ByReleasedDate(int? year, int? month)
         {
             if (!year.HasValue)
                 year = -1;
@@ -60,16 +88,20 @@ namespace Hello1.Controllers
                 month = 13;
 
 
-            return Content(string.Format("year: {0} month: {1}",year,month));
+            return Content(string.Format("year: {0} month: {1}", year, month));
         }
 
 
         public ActionResult New()
         {
-            var Movie = new Movie();
-            
+            var ViewMovie = new ViewMovie()
+            {
+                Movie = new Movie(),
+                Genres = _context.GenresList.ToList()
+            };
 
-            return View("Save",Movie);
+
+            return View("Save", ViewMovie);
         }
 
         [Route("Movies/Edit/{ID}")]
@@ -78,9 +110,17 @@ namespace Hello1.Controllers
             if (!Id.HasValue)
                 return Content("Invalid ID please try again with valid ID");
 
-            var movie = _context.MoviesList.SingleOrDefault(c => c.ID == Id);
+            var movie = _context.MoviesList.SingleOrDefault(m => m.ID == Id);
             if (movie != null)
-                return View("Save", movie);
+            {
+                var ViewMovie = new ViewMovie()
+                {
+                    Movie = movie,
+                    Genres = _context.GenresList.ToList()
+                };
+                return View("Save", ViewMovie);
+            }
+
 
             return Content("Can't Find Movie with that ID");
         }
@@ -89,31 +129,36 @@ namespace Hello1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Save(Movie movie)
+        public ActionResult Save(ViewMovie Viewmovie)
         {
-            if(!ModelState.IsValid) 
-                return View("Save",movie);
+            if (!ModelState.IsValid)
+                return View("Save", Viewmovie);
 
 
-            if (movie.ID == 0)
-                _context.MoviesList.Add(movie);
-            else{
+            if (Viewmovie.Movie.ID == 0)
+            {
+                _context.MoviesList.Add(Viewmovie.Movie);
+            }
+            else
+            {
                 try
                 {
-                    var MovieInDB = _context.MoviesList.Single(c => c.ID == movie.ID);
+                    var MovieInDB = _context.MoviesList.Single(m => m.ID == Viewmovie.Movie.ID);
 
-                    MovieInDB.Name = movie.Name;
-                    MovieInDB.Release = movie.Release;
-                    MovieInDB.Dirctor = movie.Dirctor;
+                    MovieInDB.Name = Viewmovie.Movie.Name;
+                    MovieInDB.Release = Viewmovie.Movie.Release;
+                    MovieInDB.Dirctor = Viewmovie.Movie.Dirctor;
+                    MovieInDB.Price = Viewmovie.Movie.Price;
+                    MovieInDB.NumberInStock = Viewmovie.Movie.NumberInStock;
 
                 }
-                catch
+                catch (Exception e)
                 {
                     //trying to edit non existing Movie
-                    return Content("Ops trying to edit non existing Movie");
+                    return Content("Ops trying to edit non existing Movie, error" + e);
 
                 }
-                
+
 
             }
 
@@ -129,7 +174,14 @@ namespace Hello1.Controllers
             }
 
 
-            return RedirectToAction("Index","Movies");
+            return RedirectToAction("Index", "Movies");
+        }
+
+
+        public static void AddGenresToMovie(ViewMovie viewMovie)
+        {
+            //foreach (var Genres in viewMovie.GenresList)
+
         }
 
 

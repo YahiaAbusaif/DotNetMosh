@@ -235,9 +235,19 @@
     <Compile Include="Migrations\202110182136167_updateMovie.Designer.cs">
       <DependentUpon>202110182136167_updateMovie.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202110211354357_addgenres.cs" />
+    <Compile Include="Migrations\202110211354357_addgenres.Designer.cs">
+      <DependentUpon>202110211354357_addgenres.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202110211355425_adddata.cs" />
+    <Compile Include="Migrations\202110211355425_adddata.Designer.cs">
+      <DependentUpon>202110211355425_adddata.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Genre.cs" />
+    <Compile Include="Models\MovieGenre.cs" />
     <Compile Include="Models\Validition\Min18YearsIfMember.cs" />
     <Compile Include="Models\ViewModel\Customers.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -246,6 +256,7 @@
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Models\ViewModel\Movies.cs" />
     <Compile Include="Models\ViewModel\NewCustomer.cs" />
+    <Compile Include="Models\ViewModel\ViewMovie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -363,6 +374,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202110182136167_updateMovie.resx">
       <DependentUpon>202110182136167_updateMovie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202110211354357_addgenres.resx">
+      <DependentUpon>202110211354357_addgenres.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202110211355425_adddata.resx">
+      <DependentUpon>202110211355425_adddata.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

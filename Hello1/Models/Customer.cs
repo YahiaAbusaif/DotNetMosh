@@ -32,6 +32,8 @@ namespace Hello1.Models
         //update-database
 
 
+        //Update-Database -TargetMigration:
+
         //install-package automapper -version:4.1
     }
 }

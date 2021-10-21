@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Hello1.App_Start
 {
@@ -10,6 +12,11 @@ namespace Hello1.App_Start
     {
         public static void Register(HttpConfiguration config)
         {
+            var setting = config.Formatters.JsonFormatter.SerializerSettings;
+            setting.ContractResolver= new CamelCasePropertyNamesContractResolver();
+            setting.Formatting = Formatting.Indented;
+            
+
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(

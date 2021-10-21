@@ -1,4 +1,6 @@
-﻿using Hello1.Models;
+﻿using AutoMapper;
+using Hello1.Dtos;
+using Hello1.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,65 +21,74 @@ namespace Hello1.Controllers.API
 
 
         // GET api/Customers
-        public IEnumerable<Customer> GetCustomers()
+        public IEnumerable<CustomerDto> GetCustomers()
         {
-            return _context.CustomersList.ToList();
+            return _context.CustomersList.ToList().Select(Mapper.Map<Customer,CustomerDto>);
         }
 
         // GET api/Customers/1
-        public Customer GetCustomer(int id)
+        public CustomerDto GetCustomer(int id)
         {
             var customer = _context.CustomersList.SingleOrDefault(c => c.ID == id);
 
             if (customer == null)
                 throw new HttpResponseException(HttpStatusCode.NotFound);
 
-            return customer;
+            return Mapper.Map<Customer,CustomerDto>(customer);
         }
 
         [HttpPost]
         // POST api/Customers
-        public Customer CreateCustomer(Customer customer)
+        public CustomerDto CreateCustomer(CustomerDto CustomerDto)
         {
             if (!ModelState.IsValid)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
+            var customer = Mapper.Map<CustomerDto,Customer>(CustomerDto);
+
 
             try
             {
                 _context.CustomersList.Add(customer);
                 _context.SaveChanges();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }
 
-            return customer;
+            CustomerDto.ID=customer.ID;
+
+            return CustomerDto;
         }
 
         // PUT api/Customers/5
         [HttpPut]
-        public void PUTCustomer(int id, Customer customer)
+        public void PUTCustomer(int id, CustomerDto CustomerDto)
         {
             if (!ModelState.IsValid)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
+
 
             var customerInDB = _context.CustomersList.SingleOrDefault(c => c.ID == id);
 
             if (customerInDB == null)
                 throw new HttpResponseException(HttpStatusCode.NotFound);
 
-            customerInDB.Name=customer.Name;
-            customerInDB.IsSubscribedToNewsletter=customer.IsSubscribedToNewsletter;
-            customerInDB.MembershipTypeID=customer.MembershipTypeID;
-            customerInDB.BirthDate=customer.BirthDate;
+            Mapper.Map(CustomerDto,customerInDB);
+
+            /*
+            customerInDB.Name=CustomerDto.Name;
+            customerInDB.IsSubscribedToNewsletter=CustomerDto.IsSubscribedToNewsletter;
+            customerInDB.MembershipTypeID=CustomerDto.MembershipTypeID;
+            customerInDB.BirthDate=CustomerDto.BirthDate;*/
             
             try
             {
                 _context.SaveChanges();
             }
-            catch (Exception e)
+            catch (Exception)
             {
+
                 throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }
 
@@ -100,7 +111,7 @@ namespace Hello1.Controllers.API
                 _context.CustomersList.Remove(customerInDB);
                 _context.SaveChanges();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }

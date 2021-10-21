@@ -26,6 +26,14 @@ namespace Hello1.Models
 
         public DbSet<MembershipType> MembershipTypeList { get; set; }
 
+
+        public DbSet<Genre> GenresList { get; set; }
+
+        public DbSet<MovieGenre> MovieGenre { get; set; }
+
+
+
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

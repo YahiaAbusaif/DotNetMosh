@@ -1,8 +1,7 @@
-﻿@model Hello1.Models.Movie
-
+﻿@model Hello1.Models.ViewModel.ViewMovie
 
 @{
-    ViewBag.Title = "Save";
+    ViewBag.Title = "Save a Movie";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -12,24 +11,39 @@
 @using (Html.BeginForm("Save", "Movies"))
 {
     <div class="form-group">
-        @Html.LabelFor(m => m.Name)
-        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.Name)
+        @Html.LabelFor(m => m.Movie.Name)
+        @Html.TextBoxFor(m => m.Movie.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Movie.Name)
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Movie.Release)
+        @Html.TextBoxFor(m => m.Movie.Release, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Movie.Release)
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(m => m.Release)
-        @Html.TextBoxFor(m => m.Release, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.Release)
+        @Html.LabelFor(m => m.Movie.Dirctor)
+        @Html.TextBoxFor(m => m.Movie.Dirctor, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Movie.Dirctor)
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(m => m.Dirctor)
-        @Html.TextBoxFor(m =>  m.Dirctor, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m =>  m.Dirctor)
+        @Html.LabelFor(m => m.Movie.Price)
+        @Html.TextBoxFor(m => m.Movie.Price, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Movie.Price)
     </div>
 
-    @Html.HiddenFor(m => m.ID)
+    <div class="form-group">
+        @Html.LabelFor(m => m.Movie.NumberInStock)
+        @Html.TextBoxFor(m => m.Movie.NumberInStock, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Movie.NumberInStock)
+    </div>
+
+
+    @Html.HiddenFor(m => m.Movie.ID)
+    @Html.HiddenFor(m => m.Movie.AverageReviewOutOfTen)
     @Html.AntiForgeryToken()
 
     <button type="submit" class="btn btn-primary">Submit</button>

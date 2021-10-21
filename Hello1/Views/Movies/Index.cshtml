@@ -12,16 +12,23 @@
     <thead>
         <tr>
             <th>movie's Name</th>
+            <th>Geners</th>
             <th>Edit option</th>
         </tr>
     </thead>
 
     <tbody>
-        @foreach (var movie in Model.MoviesList)
+        @foreach (var Viewmovie in Model.MoviesList)
         {
             <tr>
-                <th>@Html.ActionLink(@movie.Name, "Details/" + @movie.ID, "Movies") </th>
-                <th>@Html.ActionLink("Edit", "Edit/" + @movie.ID, "Movies")</th>
+                <th>@Html.ActionLink(@Viewmovie.Movie.Name, "Details/" + @Viewmovie.Movie.ID, "Movies") </th>
+                <th>
+                    @foreach (var Genres in Viewmovie.Genres)
+                    {
+                        @Html.ActionLink(@Genres.Name +" " , "Details/" + @Genres.Name, "Genres")
+                        }
+                </th>
+                <th>@Html.ActionLink("Edit", "Edit/" + @Viewmovie.Movie.ID, "Movies")</th>
             </tr>
         }
 
