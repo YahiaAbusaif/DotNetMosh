@@ -19,7 +19,7 @@ namespace Hello1.Dtos
         public Byte MembershipTypeID { get; set; }
 
 
-        [Min18YearsIfMember]
+        //[Min18YearsIfMember]
         public DateTime? BirthDate { get; set; }
     }
 }

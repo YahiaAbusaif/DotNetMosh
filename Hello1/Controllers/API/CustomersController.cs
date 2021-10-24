@@ -21,29 +21,29 @@ namespace Hello1.Controllers.API
 
 
         // GET api/Customers
-        public IEnumerable<CustomerDto> GetCustomers()
+        public IHttpActionResult GetCustomers()
         {
-            return _context.CustomersList.ToList().Select(Mapper.Map<Customer,CustomerDto>);
+            return Ok(_context.CustomersList.ToList().Select(Mapper.Map<Customer, CustomerDto>));
         }
 
         // GET api/Customers/1
-        public CustomerDto GetCustomer(int id)
+        public IHttpActionResult GetCustomer(int id)
         {
             var customer = _context.CustomersList.SingleOrDefault(c => c.ID == id);
 
             if (customer == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
 
-            return Mapper.Map<Customer,CustomerDto>(customer);
+            return Ok(Mapper.Map<Customer, CustomerDto>(customer));
         }
 
         [HttpPost]
         // POST api/Customers
-        public CustomerDto CreateCustomer(CustomerDto CustomerDto)
+        public IHttpActionResult CreateCustomer(CustomerDto CustomerDto)
         {
             if (!ModelState.IsValid)
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
-            var customer = Mapper.Map<CustomerDto,Customer>(CustomerDto);
+                return BadRequest();
+            var customer = Mapper.Map<CustomerDto, Customer>(CustomerDto);
 
 
             try
@@ -53,58 +53,57 @@ namespace Hello1.Controllers.API
             }
             catch (Exception)
             {
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                //throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                return ResponseMessage(Request.CreateErrorResponse
+                    (HttpStatusCode.InternalServerError,
+                    "Internal Error, database can't add new customer, try later."));
+
             }
 
-            CustomerDto.ID=customer.ID;
+            CustomerDto.ID = customer.ID;
 
-            return CustomerDto;
+            return Created(new Uri(Request.RequestUri + "/" + customer.ID), CustomerDto);
         }
 
         // PUT api/Customers/5
         [HttpPut]
-        public void PUTCustomer(int id, CustomerDto CustomerDto)
+        public IHttpActionResult UpdateCustomer(int id, CustomerDto CustomerDto)
         {
             if (!ModelState.IsValid)
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return BadRequest();
 
 
             var customerInDB = _context.CustomersList.SingleOrDefault(c => c.ID == id);
 
             if (customerInDB == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
 
-            Mapper.Map(CustomerDto,customerInDB);
+            Mapper.Map(CustomerDto, customerInDB);
 
-            /*
-            customerInDB.Name=CustomerDto.Name;
-            customerInDB.IsSubscribedToNewsletter=CustomerDto.IsSubscribedToNewsletter;
-            customerInDB.MembershipTypeID=CustomerDto.MembershipTypeID;
-            customerInDB.BirthDate=CustomerDto.BirthDate;*/
-            
             try
             {
                 _context.SaveChanges();
             }
             catch (Exception)
             {
-
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                return ResponseMessage(Request.CreateErrorResponse
+                    (HttpStatusCode.InternalServerError,
+                    "Internal Error, database can't edit the customer, try later."));
             }
-
+            return Ok();
 
         }
 
         // DELETE api/Customers/5
         [HttpDelete]
-        public void DeleteCustomer(int id)
+        public IHttpActionResult DeleteCustomer(int id)
         {
 
 
             var customerInDB = _context.CustomersList.SingleOrDefault(c => c.ID == id);
 
             if (customerInDB == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
 
             try
             {
@@ -113,9 +112,11 @@ namespace Hello1.Controllers.API
             }
             catch (Exception)
             {
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                return ResponseMessage(Request.CreateErrorResponse
+                  (HttpStatusCode.InternalServerError,
+                  "Internal Error, database can't delete the customer, try later."));
             }
-
+            return Ok();
         }
     }
 }
