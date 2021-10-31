@@ -8,12 +8,14 @@
 <h2>List of Movies</h2>
 
 
-<table class="table table-bordered table-hover">
+<table id="Movies" class="table table-bordered table-hover">
     <thead>
         <tr>
             <th>movie's Name</th>
+            <th>Year</th>
             <th>Geners</th>
             <th>Edit option</th>
+            <th>Delete</th>
         </tr>
     </thead>
 
@@ -22,13 +24,15 @@
         {
             <tr>
                 <th>@Html.ActionLink(@Viewmovie.Movie.Name, "Details/" + @Viewmovie.Movie.ID, "Movies") </th>
+                <th>@Viewmovie.Movie.Release.Value.Year</th>
                 <th>
                     @foreach (var Genres in Viewmovie.Genres)
                     {
-                        @Html.ActionLink(@Genres.Name +" " , "Details/" + @Genres.Name, "Genres")
-                        }
+                        @Html.ActionLink(@Genres.Name + " ", "Details/" + @Genres.Name, "Genres")
+                    }
                 </th>
                 <th>@Html.ActionLink("Edit", "Edit/" + @Viewmovie.Movie.ID, "Movies")</th>
+                <th><button data-Movie-id="@Viewmovie.Movie.ID" class="btn-link js-delete"> Delete </button> </th>
             </tr>
         }
 
@@ -37,3 +41,29 @@
 </table>
 
 @Html.ActionLink("Add New movie", "New/", "Movies")
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#Movies").dataTable();
+
+            $("#Movies").on("click",".js-delete" ,function () {
+
+                var button = $(this);
+                bootbox.confirm("are you sure you want to delete this Movie??", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/Movies/" + button.attr("data-Movie-id"),
+                            method: "DELETE",
+                            success: function () {button.parents("tr").remove();}
+                            });
+                    }
+                });
+            });
+
+        });
+    </script>
+
+}

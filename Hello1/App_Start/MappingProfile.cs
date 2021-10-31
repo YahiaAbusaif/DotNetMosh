@@ -12,11 +12,15 @@ namespace Hello1.App_Start
     {
         public MappingProfile()
         {
+            //domin to dto 
             Mapper.CreateMap<Customer,CustomerDto>();
-            Mapper.CreateMap<CustomerDto,Customer>();
-
             Mapper.CreateMap<Movie,MovieDto>();
+            Mapper.CreateMap<MembershipType,MembershipDto>();
+
+            //dto to domin
+            Mapper.CreateMap<CustomerDto,Customer>();
             Mapper.CreateMap<MovieDto,Movie>();
+            Mapper.CreateMap<MembershipDto,MembershipType>();
         }
     }
 }

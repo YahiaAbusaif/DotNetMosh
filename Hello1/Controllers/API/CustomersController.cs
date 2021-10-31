@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Data.Entity;
 
 namespace Hello1.Controllers.API
 {
@@ -19,11 +20,20 @@ namespace Hello1.Controllers.API
             _context = new ApplicationDbContext();
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
 
         // GET api/Customers
         public IHttpActionResult GetCustomers()
         {
-            return Ok(_context.CustomersList.ToList().Select(Mapper.Map<Customer, CustomerDto>));
+            var customerdto = _context.CustomersList
+                .Include(c => c.MembershipType)
+                .ToList()
+                .Select(Mapper.Map<Customer, CustomerDto>);
+
+            return Ok(customerdto);
         }
 
         // GET api/Customers/1

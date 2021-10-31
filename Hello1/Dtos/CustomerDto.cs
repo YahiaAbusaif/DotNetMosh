@@ -21,5 +21,6 @@ namespace Hello1.Dtos
 
         //[Min18YearsIfMember]
         public DateTime? BirthDate { get; set; }
+        public MembershipDto MembershipType { get; set; }
     }
 }

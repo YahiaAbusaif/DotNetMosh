@@ -27,10 +27,10 @@ namespace Hello1.Controllers
 
         public ActionResult Index()
         {
-            Customers Customers = new Customers();
-            Customers.CustomersList = _context.CustomersList.Include(c => c.MembershipType).ToList();
+            //Customers Customers = new Customers();
+            //Customers.CustomersList = _context.CustomersList.Include(c => c.MembershipType).ToList();
             
-            return View(Customers);
+            return View("Index");
         }
 
 
