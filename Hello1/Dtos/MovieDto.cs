@@ -29,7 +29,8 @@ namespace Hello1.Dtos
         [Range(0,1000)]
         public Double? Price { get; set; }
 
+        public IList<GenreDto> Genres { get; set; }
 
-    
+
     }
 }

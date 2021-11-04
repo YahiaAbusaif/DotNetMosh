@@ -20,22 +20,6 @@
     </thead>
 
     <tbody>
-        @foreach (var Viewmovie in Model.MoviesList)
-        {
-            <tr>
-                <th>@Html.ActionLink(@Viewmovie.Movie.Name, "Details/" + @Viewmovie.Movie.ID, "Movies") </th>
-                <th>@Viewmovie.Movie.Release.Value.Year</th>
-                <th>
-                    @foreach (var Genres in Viewmovie.Genres)
-                    {
-                        @Html.ActionLink(@Genres.Name + " ", "Details/" + @Genres.Name, "Genres")
-                    }
-                </th>
-                <th>@Html.ActionLink("Edit", "Edit/" + @Viewmovie.Movie.ID, "Movies")</th>
-                <th><button data-Movie-id="@Viewmovie.Movie.ID" class="btn-link js-delete"> Delete </button> </th>
-            </tr>
-        }
-
     </tbody>
 
 </table>
@@ -47,7 +31,48 @@
 {
     <script>
         $(document).ready(function () {
-            $("#Movies").dataTable();
+             var table = $("#Movies").dataTable({
+                ajax: {
+                    url: "/api/Movies",
+                    dataSrc: ""
+                },
+                columns: [
+                        {
+                            data : "name",
+                            render: function(data, type, Movie) {
+                                return "<a href='/Movies/Details/" + Movie.id +"'>" + Movie.name +"</a>";
+                            }
+                        },
+                        {
+                            data : "release"
+                        },
+                        {
+                            data : "genres",
+                            render: function (data) {
+                                if(data.length == 0)
+                                    return "None";
+                                var AllGenre = "";
+                                for (var i = 0; i < data.length; i++) 
+                                { AllGenre+= data[i].name +" "; }
+                                return AllGenre;
+                            } 
+                        },
+
+                        {
+                            data : "id",
+                            render: function (data) {
+                                return "<a href='/Movies/Edit/" + data +"'>Edit</a>";
+                            }  
+                        },
+                        {
+                            data: "id",
+                            render: function (data) {
+                                return "<button  class='btn-link js-delete' data-Movie-id=" + data +">Delete</button>" ;
+                            }
+
+                        }
+                    ]
+             });
 
             $("#Movies").on("click",".js-delete" ,function () {
 
@@ -57,7 +82,7 @@
                         $.ajax({
                             url: "/api/Movies/" + button.attr("data-Movie-id"),
                             method: "DELETE",
-                            success: function () {button.parents("tr").remove();}
+                            success: function () {table.row(button.parents("tr")).remove().draw();}
                             });
                     }
                 });

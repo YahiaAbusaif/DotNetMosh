@@ -23,7 +23,22 @@ namespace Hello1.Controllers.API
         // GET api/Movies
         public IHttpActionResult GetMovies()
         {
-            return Ok(_context.MoviesList.ToList().Select(Mapper.Map<Movie,MovieDto>));
+            var MoviesList = _context.MoviesList.ToList().Select(Mapper.Map<Movie,MovieDto>);
+            var MoviesDto= new List<MovieDto>(MoviesList);
+
+
+            foreach (var Movie in MoviesDto)
+            {
+
+                var GenersIDs = _context.MovieGenre
+                           .Where(Gm => Gm.MovieID == Movie.ID)
+                           .Select(G => G.GenreID).ToList();
+                Movie.Genres = _context.GenresList
+                    .Where(G => GenersIDs.Contains(G.ID))
+                    .Select(Mapper.Map<Genre,GenreDto>).ToList();
+            }
+
+            return Ok(MoviesDto);
         }
 
         // GET api/Movies/1
@@ -34,7 +49,18 @@ namespace Hello1.Controllers.API
             if (Movie == null)
                 return NotFound();
 
-            return Ok(Mapper.Map<Movie,MovieDto>(Movie));
+            var MovieDto=Mapper.Map<Movie,MovieDto>(Movie);
+
+
+            var GenersIDs = _context.MovieGenre
+                       .Where(Gm => Gm.MovieID == Movie.ID)
+                       .Select(G => G.GenreID).ToList();
+            MovieDto.Genres = _context.GenresList
+                .Where(G => GenersIDs.Contains(G.ID))
+                .Select(Mapper.Map<Genre,GenreDto>).ToList();
+            
+
+            return Ok(MovieDto);
         }
 
         [HttpPost]

@@ -16,11 +16,13 @@ namespace Hello1.App_Start
             Mapper.CreateMap<Customer,CustomerDto>();
             Mapper.CreateMap<Movie,MovieDto>();
             Mapper.CreateMap<MembershipType,MembershipDto>();
+            Mapper.CreateMap<Genre,GenreDto>();
 
             //dto to domin
             Mapper.CreateMap<CustomerDto,Customer>();
             Mapper.CreateMap<MovieDto,Movie>();
             Mapper.CreateMap<MembershipDto,MembershipType>();
+            Mapper.CreateMap<GenreDto,Genre>();
         }
     }
 }
