@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Hello1.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Hello1.Controllers
 {
@@ -155,6 +156,13 @@ namespace Hello1.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    //temp code
+                    //var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
+                    //var roleManger = new RoleManager<IdentityRole>(roleStore);
+                    //await roleManger.CreateAsync(new IdentityRole("canMangeMovie"));
+                    //await UserManager.AddToRoleAsync(user.Id,"canMangeMovie");
+
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771

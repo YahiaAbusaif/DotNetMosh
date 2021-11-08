@@ -9,6 +9,7 @@ using Hello1.Models.ViewModel;
 
 namespace Hello1.Controllers
 {
+    //[Authorize]
     public class CustomersController : Controller
     {
         // GET: Customers
@@ -29,8 +30,10 @@ namespace Hello1.Controllers
         {
             //Customers Customers = new Customers();
             //Customers.CustomersList = _context.CustomersList.Include(c => c.MembershipType).ToList();
-            
-            return View("Index");
+            if(User.IsInRole(RoleName.CanMangeCustomers))
+                return View("Index");
+
+            return View("ViewOnlyList");
         }
 
 
@@ -47,7 +50,7 @@ namespace Hello1.Controllers
             return Content("Can't Find User with that ID");
         }
 
-
+        [Authorize(Roles = RoleName.CanMangeCustomers)]
         public ActionResult New()
         {
             var membershipTypes = _context.MembershipTypeList.ToList();
@@ -63,6 +66,7 @@ namespace Hello1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = RoleName.CanMangeCustomers)]
         public ActionResult Save(Customer customer)
         {
             if(!ModelState.IsValid)
@@ -115,7 +119,7 @@ namespace Hello1.Controllers
             return RedirectToAction("Index","Customers");
         }
 
-
+        [Authorize(Roles = RoleName.CanMangeCustomers)]
         [Route("Customers/Edit/{ID}")]
         public ActionResult Edit(int? Id)
         {

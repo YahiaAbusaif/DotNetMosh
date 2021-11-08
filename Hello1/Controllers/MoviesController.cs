@@ -24,6 +24,7 @@ namespace Hello1.Controllers
         }
 
         // GET: Movies
+        [AllowAnonymous]
         public ActionResult Index(int? pageIndex, string sortBy)
         {
             if (!pageIndex.HasValue)
@@ -52,8 +53,10 @@ namespace Hello1.Controllers
 
             }
 
+            if(User.IsInRole(RoleName.CanMangeMovies))
+                return View("Index");
 
-            return View(movies);
+            return View("ViewOnlyList");
         }
 
         [Route("Movies/Details/{ID}")]
@@ -79,7 +82,7 @@ namespace Hello1.Controllers
 
         }
 
-        [Route("Movies/Released/{year:regex(\\d{4}):range(1990,2050)}/{month:range(1,12)}")]
+        [Route("Movies/Released/{year:regex(\\d{4}):range(1900,2050)}/{month:range(1,12)}")]
         public ActionResult ByReleasedDate(int? year, int? month)
         {
             if (!year.HasValue)
@@ -91,7 +94,7 @@ namespace Hello1.Controllers
             return Content(string.Format("year: {0} month: {1}", year, month));
         }
 
-
+        [Authorize(Roles = RoleName.CanMangeMovies)]
         public ActionResult New()
         {
             var ViewMovie = new ViewMovie()
@@ -105,6 +108,7 @@ namespace Hello1.Controllers
         }
 
         [Route("Movies/Edit/{ID}")]
+        [Authorize(Roles = RoleName.CanMangeMovies)]
         public ActionResult Edit(int? Id)
         {
             if (!Id.HasValue)
@@ -129,6 +133,7 @@ namespace Hello1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = RoleName.CanMangeMovies)]
         public ActionResult Save(ViewMovie Viewmovie)
         {
             if (!ModelState.IsValid)
@@ -177,7 +182,8 @@ namespace Hello1.Controllers
             return RedirectToAction("Index", "Movies");
         }
 
-
+        [Route("Movies/Genres/{ID}")]
+        [Authorize(Roles = RoleName.CanMangeMovies)]
         public static void AddGenresToMovie(ViewMovie viewMovie)
         {
             //foreach (var Genres in viewMovie.GenresList)

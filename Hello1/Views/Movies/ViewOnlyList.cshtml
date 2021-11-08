@@ -1,0 +1,63 @@
+﻿@model Hello1.Models.Movies
+
+@{
+    ViewBag.Title = "Movies";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List of Movies</h2>
+
+
+<table id="Movies" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>movie's Name</th>
+            <th>Year</th>
+            <th>Geners</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    </tbody>
+
+</table>
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+             var table = $("#Movies").dataTable({
+                ajax: {
+                    url: "/api/Movies",
+                    dataSrc: ""
+                },
+                columns: [
+                        {
+                            data : "name",
+                            render: function(data, type, Movie) {
+                                return "<a href='/Movies/Details/" + Movie.id +"'>" + Movie.name +"</a>";
+                            }
+                        },
+                        {
+                            data : "release"
+                        },
+                        {
+                            data : "genres",
+                            render: function (data) {
+                                if(data.length == 0)
+                                    return "None";
+                                var AllGenre = "";
+                                for (var i = 0; i < data.length; i++)
+                                { AllGenre+= data[i].name +" "; }
+                                return AllGenre;
+                            }
+                        }
+                    ]
+             });
+
+
+        });
+    </script>
+
+}

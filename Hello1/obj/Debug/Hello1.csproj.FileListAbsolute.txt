@@ -352,3 +352,5 @@ C:\Users\Yahia\Desktop\Hello1\Hello1\bin\AutoMapper.dll
 C:\Users\Yahia\Desktop\Hello1\Hello1\bin\AutoMapper.xml
 C:\Users\Yahia\Desktop\Hello1\Hello1\obj\Debug\Hello1.Migrations.addgenres.resources
 C:\Users\Yahia\Desktop\Hello1\Hello1\obj\Debug\Hello1.Migrations.adddata.resources
+C:\Users\Yahia\Desktop\Hello1\Hello1\obj\Debug\Hello1.Migrations.seedUser.resources
+C:\Users\Yahia\Desktop\Hello1\Hello1\obj\Debug\Hello1.Migrations.seedCustomerManger.resources
