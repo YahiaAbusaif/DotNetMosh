@@ -54,9 +54,11 @@ namespace Hello1
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+
+
+            app.UseFacebookAuthentication(
+               appId: "403939961471712",
+               appSecret: "54d9ec55fa8b61184ce46a81dca47525");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
