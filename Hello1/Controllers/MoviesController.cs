@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Hello1.Models.ViewModel;
-
+using System.Runtime.Caching;
 
 namespace Hello1.Controllers
 {
@@ -74,6 +74,13 @@ namespace Hello1.Controllers
             var GenersIDs = _context.MovieGenre
                             .Where(Gm => Gm.MovieID == Id)
                             .Select(G => G.GenreID).ToList();
+            /*
+            if(MemoryCache.Default["Genres"]==null)
+            {
+                MemoryCache.Default["Genres"] = _context.GenresList.ToList();
+            }
+            var Genres = MemoryCache.Default["Genres"] as IEnumerable<Genre> ;
+            */
             viewMovie.Genres = _context.GenresList.Where(G => GenersIDs.Contains(G.ID));
 
             

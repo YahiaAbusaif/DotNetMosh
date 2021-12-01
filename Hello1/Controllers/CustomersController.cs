@@ -26,6 +26,7 @@ namespace Hello1.Controllers
             _context.Dispose();
         }
 
+        [OutputCache(Duration =0,VaryByParam ="*",NoStore =true)]
         public ActionResult Index()
         {
             //Customers Customers = new Customers();
