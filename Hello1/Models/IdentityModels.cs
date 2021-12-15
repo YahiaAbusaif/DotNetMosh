@@ -32,6 +32,8 @@ namespace Hello1.Models
         public DbSet<MovieGenre> MovieGenre { get; set; }
 
 
+        public DbSet<Rental> Rentals { get; set; }
+
 
 
         public ApplicationDbContext()

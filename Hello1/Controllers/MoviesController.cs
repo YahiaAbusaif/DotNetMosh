@@ -79,7 +79,8 @@ namespace Hello1.Controllers
             {
                 MemoryCache.Default["Genres"] = _context.GenresList.ToList();
             }
-            var Genres = MemoryCache.Default["Genres"] as IEnumerable<Genre> ;
+            var tempGenres = MemoryCache.Default["Genres"] as IEnumerable<Genre> ;
+            viewMovie.Genres = tempGenres.Where(G => GenersIDs.Contains(G.ID));
             */
             viewMovie.Genres = _context.GenresList.Where(G => GenersIDs.Contains(G.ID));
 

@@ -354,3 +354,10 @@ C:\Users\Yahia\Desktop\Hello1\Hello1\obj\Debug\Hello1.Migrations.addgenres.resou
 C:\Users\Yahia\Desktop\Hello1\Hello1\obj\Debug\Hello1.Migrations.adddata.resources
 C:\Users\Yahia\Desktop\Hello1\Hello1\obj\Debug\Hello1.Migrations.seedUser.resources
 C:\Users\Yahia\Desktop\Hello1\Hello1\obj\Debug\Hello1.Migrations.seedCustomerManger.resources
+C:\Users\Yahia\Desktop\Hello1\Hello1\bin\Glimpse.Ado.dll
+C:\Users\Yahia\Desktop\Hello1\Hello1\bin\Glimpse.AspNet.dll
+C:\Users\Yahia\Desktop\Hello1\Hello1\bin\Glimpse.Core.dll
+C:\Users\Yahia\Desktop\Hello1\Hello1\bin\Glimpse.EF6.dll
+C:\Users\Yahia\Desktop\Hello1\Hello1\bin\Glimpse.Mvc5.dll
+C:\Users\Yahia\Desktop\Hello1\Hello1\obj\Debug\Hello1.Migrations.addRental.resources
+C:\Users\Yahia\Desktop\Hello1\Hello1\obj\Debug\Hello1.Migrations.addAvailableToMovieModel.resources

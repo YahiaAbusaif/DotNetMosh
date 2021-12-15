@@ -200,15 +200,19 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\API\CustomersController.cs" />
     <Compile Include="Controllers\API\MoviesController.cs" />
+    <Compile Include="Controllers\API\RentalController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\GenresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
+    <Compile Include="Controllers\RentalController.cs" />
     <Compile Include="Dtos\CustomerDto.cs" />
     <Compile Include="Dtos\GenreDto.cs" />
     <Compile Include="Dtos\MembershipDto.cs" />
     <Compile Include="Dtos\MovieDto.cs" />
+    <Compile Include="Dtos\NewRentalDto.cs" />
+    <Compile Include="Dtos\RentalDto.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -273,13 +277,23 @@
     <Compile Include="Migrations\202111081145049_seedCustomerManger.Designer.cs">
       <DependentUpon>202111081145049_seedCustomerManger.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202112151121250_addRental.cs" />
+    <Compile Include="Migrations\202112151121250_addRental.Designer.cs">
+      <DependentUpon>202112151121250_addRental.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112151158007_addAvailableToMovieModel.cs" />
+    <Compile Include="Migrations\202112151158007_addAvailableToMovieModel.Designer.cs">
+      <DependentUpon>202112151158007_addAvailableToMovieModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Genre.cs" />
     <Compile Include="Models\MovieGenre.cs" />
+    <Compile Include="Models\Rental.cs" />
     <Compile Include="Models\RoleName.cs" />
     <Compile Include="Models\Validition\Min18YearsIfMember.cs" />
+    <Compile Include="Models\ViewModel\CustomerRentalList.cs" />
     <Compile Include="Models\ViewModel\Customers.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -535,6 +549,7 @@
     <Content Include="Views\Genres\Index.cshtml" />
     <Content Include="Views\Genres\Details.cshtml" />
     <Content Include="Views\Genres\Save.cshtml" />
+    <Content Include="Views\Rental\New.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -597,6 +612,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202111081145049_seedCustomerManger.resx">
       <DependentUpon>202111081145049_seedCustomerManger.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112151121250_addRental.resx">
+      <DependentUpon>202112151121250_addRental.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112151158007_addAvailableToMovieModel.resx">
+      <DependentUpon>202112151158007_addAvailableToMovieModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

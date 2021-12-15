@@ -14,7 +14,6 @@ namespace Hello1.Models
         [MaxLength(256)]
         public string Name { get; set; }
 
-
         public string Dirctor { get; set; }
         public DateTime? Release { get; set; }
 
@@ -27,6 +26,10 @@ namespace Hello1.Models
 
         [Range(0,1000)]
         public Double? Price { get; set; }
+
+        [Range(0,1000000)]
+        [Display(Name ="Number of Available Movie")]
+        public int NumberAvailable { get; set; }
 
         //public virtual ICollection<Genre> Genres { get; set; }
 
