@@ -27,6 +27,11 @@ namespace Hello1.Models
         public DateTime? BirthDate { get; set; }
 
 
+        //amount of money the account have
+        [Range(-1000000,1000000)]
+        public int Money { get; set; } =0 ;
+
+
 
         //add-migration Nameofit
         //update-database

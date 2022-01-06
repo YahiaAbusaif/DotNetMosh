@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
+
 namespace Hello1.Models
 {
     public class MembershipType
@@ -19,7 +20,8 @@ namespace Hello1.Models
 
         public static readonly Byte unknown=0;
         public static readonly Byte Freemembership=1;
-
-
+        public static readonly Byte Paidmembership=2;
+        public static readonly Byte Promembership=3;
+        public static readonly Byte Ultimatemembership=4;
     }
 }

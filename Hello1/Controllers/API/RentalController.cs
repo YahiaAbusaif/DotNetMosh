@@ -38,25 +38,30 @@ namespace Hello1.Controllers.API
                 return BadRequest("some Movies IDs are invalid");
             */
 
-            foreach (var movie in movies)
-            {
-                if(movie.NumberAvailable==0)
-                    return BadRequest("Movie "+ movie.Name+ " isn't available.");
-            }
 
-
-            foreach (var CurrentMovie in movies)
+            lock (_context.MoviesList)
             {
-                CurrentMovie.NumberAvailable--;
-                Rental rental = new Rental()
+                foreach (var movie in movies)
                 {
-                    Customer = customerInDB,
-                    Movie = CurrentMovie,
-                    RentalDate = DateTime.Now
-                };
-                _context.Rentals.Add(rental);
+                    if(movie.NumberAvailable==0)
+                        return BadRequest("Movie "+ movie.Name+ " isn't available.");
+                }
 
+                foreach (var CurrentMovie in movies)
+                {
+                    CurrentMovie.NumberAvailable--;
+                    Rental rental = new Rental()
+                    {
+                        Customer = customerInDB,
+                        Movie = CurrentMovie,
+                        RentalDate = DateTime.Now
+                    };
+                    _context.Rentals.Add(rental);
+
+                }
             }
+
+            
             try
             {
                 _context.SaveChanges();
@@ -73,9 +78,67 @@ namespace Hello1.Controllers.API
         }
 
         [HttpPut]
-        public IHttpActionResult UpdateRental(Rental Rental)
+        //this function will be called when the customer give the Movie back 
+        public IHttpActionResult UpdateRental(RentalDto Rental)
         {
-            throw new NotImplementedException();
+            var rentalInDB = _context.Rentals.Single(c => c.ID == Rental.ID);
+
+            //to impelemnt : Add option for getting Rental based on CustomerID and MovieID
+            //this option will help if user miss the rental ID but this case should handel  
+            //if the user rents multi copy of the same Movie 
+            //var rentalInDB = _context.Rentals.Single(c => c.Customer.ID == Rental.CustomerID && c.Movie.ID == Rental.MovieID);
+            
+            if(rentalInDB ==null)
+                return BadRequest("No rental with that ID");
+            rentalInDB.ReturnDate=DateTime.Now;
+
+            var price=_context.MoviesList.Single(c => c.ID == Rental.MovieID).RentalPriceInCentsForDay;
+
+            var durition=(rentalInDB.ReturnDate - rentalInDB.RentalDate ).Value.Days+1 ;
+
+            var idx=0;
+            for(;idx<PricingPolicy.MaxNumberOfDays.Length;idx++)
+            {
+                if(PricingPolicy.MaxNumberOfDays[idx]>durition)
+                    break;
+            }
+            if(idx==PricingPolicy.MaxNumberOfDays.Length)
+                idx--;
+            var pricepolicy= PricingPolicy.PrecentPrice[idx];
+            
+            var totalPrice=(pricepolicy/100)*durition*price;
+
+
+            var customer= _context.CustomersList.Single(c => c.ID == Rental.CustomerID);
+
+
+            //check for promoCode
+            if(Rental.PromoCodeName!="")
+            {
+                var PromoInDB=_context.PromoCodes.Single(c => c.Name == Rental.PromoCodeName);
+                if(PromoInDB!=null)
+                {
+                    var countUse=_context.Rentals.ToList()
+                        .Count(c => c.Promo == PromoInDB && c.Customer.ID==Rental.CustomerID);
+                    if(PromoInDB.NumberofUse<countUse)
+                    {
+                        if(PromoInDB.MembershipRequired==customer.MembershipType)
+                        {
+                            var newprice=(PromoInDB.Discount/100)*totalPrice;
+                            if(totalPrice-newprice>PromoInDB.MaxDiscountInCents)
+                                totalPrice=totalPrice-PromoInDB.MaxDiscountInCents;
+                            else
+                                totalPrice=newprice;
+
+                        }
+                    }
+                }
+
+            }
+
+
+
+             return Ok("OK Movie is back, Required Money is" + totalPrice.ToString());
         }
     }
 }

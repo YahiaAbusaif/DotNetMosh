@@ -24,8 +24,8 @@ namespace Hello1.Models
         [Display(Name ="Number of Movie in stock")]
         public int? NumberInStock { get; set; }
 
-        [Range(0,1000)]
-        public Double? Price { get; set; }
+        [Range(0,10000)]
+        public int? RentalPriceInCentsForDay { get; set; }
 
         [Range(0,1000000)]
         [Display(Name ="Number of Available Movie")]

@@ -161,7 +161,7 @@ namespace Hello1.Controllers
                     MovieInDB.Name = Viewmovie.Movie.Name;
                     MovieInDB.Release = Viewmovie.Movie.Release;
                     MovieInDB.Dirctor = Viewmovie.Movie.Dirctor;
-                    MovieInDB.Price = Viewmovie.Movie.Price;
+                    MovieInDB.RentalPriceInCentsForDay = Viewmovie.Movie.RentalPriceInCentsForDay;
                     MovieInDB.NumberInStock = Viewmovie.Movie.NumberInStock;
 
                 }

@@ -16,5 +16,7 @@ namespace Hello1.Models
         public Movie Movie { get; set; }
         public DateTime RentalDate { get; set; }
         public DateTime? ReturnDate { get; set; }
+
+        public PromoCode Promo { get; set; }
     }
 }

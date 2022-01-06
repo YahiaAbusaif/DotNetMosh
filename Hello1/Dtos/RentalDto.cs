@@ -16,5 +16,8 @@ namespace Hello1.Dtos
         public int MovieID { get; set; }
         public DateTime RentalDate { get; set; }
         public DateTime? ReturnDate { get; set; }
+
+        public String PromoCodeName { get; set; }
+
     }
 }

@@ -34,6 +34,7 @@ namespace Hello1.Models
 
         public DbSet<Rental> Rentals { get; set; }
 
+        public DbSet<PromoCode> PromoCodes { get; set; }
 
 
         public ApplicationDbContext()
